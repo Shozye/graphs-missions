@@ -8,11 +8,12 @@ struct Graph
     neighbours = [[] for _ in 1:nv]
     ne::Int64 = 0
 
-    for edge in possible_edges
-      if rand() < p
+    rands = rand(length(possible_edges))
+    for (i, edge) in enumerate(possible_edges)
+      if @inbounds rands[i] < p
         (u, v) = edge
-        push!(neighbours[u], v)
-        push!(neighbours[v], u)
+        @inbounds push!(neighbours[u], v)
+        @inbounds push!(neighbours[v], u)
         ne += 1
       end
     end
